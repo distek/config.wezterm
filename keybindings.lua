@@ -11,9 +11,6 @@ return {
 	{ key = "Tab", mods = "CTRL", action = act.ActivateTabRelative(1) },
 	{ key = "Tab", mods = "SHIFT|CTRL", action = act.ActivateTabRelative(-1) },
 
-	{ key = '"', mods = "ALT|CTRL", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = '"', mods = "SHIFT|ALT|CTRL", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-
 	{ key = "0", mods = "CTRL", action = act.ResetFontSize },
 	{ key = "-", mods = "CTRL", action = act.DecreaseFontSize },
 	{ key = "=", mods = "CTRL", action = act.IncreaseFontSize },
@@ -77,18 +74,28 @@ return {
 			win:perform_action(act.ActivatePaneDirection("Right"), pane)
 		end),
 	},
+
+	{ key = "h", mods = "CTRL|ALT", action = act.AdjustPaneSize({ "Left", 1 }) },
+	{ key = "j", mods = "CTRL|ALT", action = act.AdjustPaneSize({ "Down", 1 }) },
+	{ key = "k", mods = "CTRL|ALT", action = act.AdjustPaneSize({ "Up", 1 }) },
+	{ key = "l", mods = "CTRL|ALT", action = act.AdjustPaneSize({ "Right", 1 }) },
+
 	{ key = "C", mods = "SHIFT|CTRL", action = act.CopyTo("Clipboard") },
 	{ key = "V", mods = "SHIFT|CTRL", action = act.PasteFrom("Clipboard") },
 
-	{ key = "T", mods = "SHIFT|CTRL", action = act.SpawnTab("CurrentPaneDomain") },
+	{ key = "f", mods = "ALT", action = act.TogglePaneZoomState },
 
-	-- { key = "X", mods = "CTRL", action = act.ActivateCopyMode },
-	-- { key = "X", mods = "SHIFT|CTRL", action = act.ActivateCopyMode },
+	{ key = "phys:Space", mods = "SHIFT|CTRL", action = act.QuickSelect },
 
-	-- { key = "F", mods = "ALT", action = act.TogglePaneZoomState },
-
-	-- { key = "phys:Space", mods = "SHIFT|CTRL", action = act.QuickSelect },
-	--
 	{ key = "PageUp", mods = "SHIFT", action = act.ScrollByPage(-1) },
 	{ key = "PageDown", mods = "SHIFT", action = act.ScrollByPage(1) },
+
+	{
+		key = "a",
+		mods = "ALT",
+		action = act.ActivateKeyTable({
+			name = "prefix",
+			one_shot = true,
+		}),
+	},
 }

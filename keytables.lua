@@ -2,6 +2,12 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 
 return {
+	prefix = {
+		{ key = "c", mods = "NONE", action = act.SpawnTab("CurrentPaneDomain") },
+		{ key = "-", mods = "NONE", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+		{ key = "_", mods = "SHIFT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+		{ key = "[", mods = "NONE", action = wezterm.action.ActivateCopyMode },
+	},
 	copy_mode = {
 		{ key = "Tab", mods = "NONE", action = act.CopyMode("MoveForwardWord") },
 		{ key = "Tab", mods = "SHIFT", action = act.CopyMode("MoveBackwardWord") },
