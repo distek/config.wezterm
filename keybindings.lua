@@ -7,6 +7,33 @@ local function inVim(pane)
 		or pane:get_foreground_process_info().executable == "~/.local/bin/nvim" -- idk if this works correctly
 end
 
+local function movePane(paneID, argDir)
+	local s, out, err = wezterm.run_child_process({
+		"wezterm",
+		"cli",
+		"move-pane-to-new-tab",
+		"--pane-id=" .. paneID,
+	})
+	if not s then
+		wezterm.log_info(out)
+		wezterm.log_info(err)
+		return
+	end
+
+	local s, out, err = wezterm.run_child_process({
+		"wezterm",
+		"cli",
+		"split-pane",
+		"--move-pane-id=" .. paneID,
+		argDir,
+	})
+	if not s then
+		wezterm.log_info(out)
+		wezterm.log_info(err)
+		return
+	end
+end
+
 return {
 	{ key = "Tab", mods = "CTRL", action = act.ActivateTabRelative(1) },
 	{ key = "Tab", mods = "SHIFT|CTRL", action = act.ActivateTabRelative(-1) },
@@ -72,6 +99,66 @@ return {
 			end
 
 			win:perform_action(act.ActivatePaneDirection("Right"), pane)
+		end),
+	},
+	{
+		key = "H",
+		mods = "ALT|SHIFT",
+		action = wezterm.action_callback(function(win, pane)
+			local tab = pane:tab()
+
+			if
+				tab:get_pane_direction("Left") ~= nil
+				or tab:get_pane_direction("Up") ~= nil
+				or tab:get_pane_direction("Down") ~= nil
+			then
+				movePane(pane:pane_id(), "--left")
+			end
+		end),
+	},
+	{
+		key = "J",
+		mods = "ALT|SHIFT",
+		action = wezterm.action_callback(function(win, pane)
+			local tab = pane:tab()
+
+			if
+				tab:get_pane_direction("Down") ~= nil
+				or tab:get_pane_direction("Right") ~= nil
+				or tab:get_pane_direction("Left") ~= nil
+			then
+				movePane(pane:pane_id(), "--bottom")
+			end
+		end),
+	},
+	{
+		key = "K",
+		mods = "ALT|SHIFT",
+		action = wezterm.action_callback(function(win, pane)
+			local tab = pane:tab()
+
+			if
+				tab:get_pane_direction("Top") ~= nil
+				or tab:get_pane_direction("Right") ~= nil
+				or tab:get_pane_direction("Left") ~= nil
+			then
+				movePane(pane:pane_id(), "--top")
+			end
+		end),
+	},
+	{
+		key = "L",
+		mods = "ALT|SHIFT",
+		action = wezterm.action_callback(function(win, pane)
+			local tab = pane:tab()
+
+			if
+				tab:get_pane_direction("Right") ~= nil
+				or tab:get_pane_direction("Up") ~= nil
+				or tab:get_pane_direction("Down") ~= nil
+			then
+				movePane(pane:pane_id(), "--right")
+			end
 		end),
 	},
 
