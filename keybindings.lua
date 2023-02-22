@@ -1,6 +1,12 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 
+local function inVim(pane)
+	return pane:get_foreground_process_info().executable == "/usr/bin/nvim"
+		or pane:get_foreground_process_info().executable == "/usr/local/bin/nvim"
+		or pane:get_foreground_process_info().executable == "~/.local/bin/nvim" -- idk if this works correctly
+end
+
 return {
 	{ key = "Tab", mods = "CTRL", action = act.ActivateTabRelative(1) },
 	{ key = "Tab", mods = "SHIFT|CTRL", action = act.ActivateTabRelative(-1) },
@@ -23,6 +29,54 @@ return {
 	{ key = "9", mods = "ALT", action = act.ActivateTab(8) },
 	{ key = "0", mods = "ALT", action = act.ActivateTab(9) },
 
+	{
+		key = "h",
+		mods = "ALT",
+		action = wezterm.action_callback(function(win, pane)
+			if inVim(pane) then
+				win:perform_action(act.SendKey({ key = "h", mods = "ALT" }), pane)
+				return
+			end
+
+			win:perform_action(act.ActivatePaneDirection("Left"), pane)
+		end),
+	},
+	{
+		key = "j",
+		mods = "ALT",
+		action = wezterm.action_callback(function(win, pane)
+			if inVim(pane) then
+				win:perform_action(act.SendKey({ key = "j", mods = "ALT" }), pane)
+				return
+			end
+
+			win:perform_action(act.ActivatePaneDirection("Down"), pane)
+		end),
+	},
+	{
+		key = "k",
+		mods = "ALT",
+		action = wezterm.action_callback(function(win, pane)
+			if inVim(pane) then
+				win:perform_action(act.SendKey({ key = "k", mods = "ALT" }), pane)
+				return
+			end
+
+			win:perform_action(act.ActivatePaneDirection("Up"), pane)
+		end),
+	},
+	{
+		key = "l",
+		mods = "ALT",
+		action = wezterm.action_callback(function(win, pane)
+			if inVim(pane) then
+				win:perform_action(act.SendKey({ key = "l", mods = "ALT" }), pane)
+				return
+			end
+
+			win:perform_action(act.ActivatePaneDirection("Right"), pane)
+		end),
+	},
 	{ key = "C", mods = "SHIFT|CTRL", action = act.CopyTo("Clipboard") },
 	{ key = "V", mods = "SHIFT|CTRL", action = act.PasteFrom("Clipboard") },
 
