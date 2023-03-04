@@ -4,7 +4,7 @@ local act = wezterm.action
 local function inVim(pane)
 	return pane:get_foreground_process_info().executable == "/usr/bin/nvim"
 		or pane:get_foreground_process_info().executable == "/usr/local/bin/nvim"
-		or pane:get_foreground_process_info().executable == "~/.local/bin/nvim" -- idk if this works correctly
+		or pane:get_foreground_process_info().executable == os.getenv("HOME") .. "/.local/bin/nvim"
 end
 
 local function movePane(paneID, argDir)

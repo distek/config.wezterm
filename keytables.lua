@@ -7,6 +7,45 @@ return {
 		{ key = "-", mods = "NONE", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
 		{ key = "_", mods = "SHIFT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 		{ key = "[", mods = "NONE", action = wezterm.action.ActivateCopyMode },
+
+		{ key = "o", mods = "NONE", action = wezterm.action.ShowLauncherArgs({ flags = "COMMANDS" }) },
+		-- Keeping this if we get popup windows one day
+		-- {
+		-- 	key = "O",
+		-- 	mods = "NONE",
+		-- 	action = wezterm.action_callback(function(win, pane)
+		-- 		local s, out, err = wezterm.run_child_process({
+		-- 			"wezterm cli",
+		-- 			"split-pane",
+		-- 			"--top",
+		-- 			"--top-level",
+		-- 			os.getenv("HOME") .. "/.config/wezterm/scripts/session-open.sh",
+		-- 		})
+
+		-- 		if not s then
+		-- 			wezterm.log_info(out)
+		-- 			wezterm.log_info(err)
+		-- 			return
+		-- 		end
+
+		-- 		local s, out, err = wezterm.run_child_process({})
+
+		-- 		wezterm.log_info(out)
+		-- 		wezterm.log_info(err)
+		-- 	end),
+		-- },
+		-- {
+		-- 	key = "o",
+		-- 	mods = "NONE",
+		-- 	action = wezterm.action_callback(function(win, pane)
+		-- 		pane:split({
+		-- 			direction = "Top",
+		-- 			size = 0.333,
+		-- 			top_level = true,
+		-- 			args = { os.getenv("HOME") .. "/.config/wezterm/scripts/session-open.sh" },
+		-- 		})
+		-- 	end),
+		-- },
 	},
 	copy_mode = {
 		{ key = "Tab", mods = "NONE", action = act.CopyMode("MoveForwardWord") },
